@@ -16,7 +16,7 @@ Automatically determines outcomes of games
 Designed to run locally without reliance on networks or internet connections
 
 Technologies Used:
-Python porgramming language
+Python programming language
 Tkinter for GUI
 GitHub for project tracking
 
