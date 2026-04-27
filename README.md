@@ -22,7 +22,7 @@ build the Blackjack game.
 
 ## Technologies Used
 1. Python programming language
-2. Tkinter for GUI
+2. Currently console based, working on possibly implementing Tkinter for GUI
 3. GitHub for project tracking
 
 ---
@@ -62,7 +62,7 @@ Stand → keep current total
 
 ## Environmental Variables
 - This program does not require any environmental variables.
-- All inputs are handled through user input via the console.
+- All inputs are handled through user input via the console (GUI in the works).
 
 ---
 
