@@ -6,6 +6,15 @@ house = []
 totals = {}
 cash = {}
 
+# ------------------------------------------------------------
+# Function: main
+# Purpose:
+#     Controls the overall flow of the Blackjack program.
+#     This function starts the game, gets the number of players,
+#     initializes player hands and money, runs each round, collects
+#     bets, calls the dealer and player turn functions, determines
+#     winners, updates money, and asks if the players want to play again.
+# ------------------------------------------------------------
 def main():
     PlayAgain = True
     house_win = False
@@ -61,7 +70,24 @@ def main():
         
     print(f"Total player money: {total_player_money}")
     print(cash)
-    
+
+# ------------------------------------------------------------
+# Function: play_again
+# Purpose:
+#     Asks the user if they want to play another round.
+#     If the user chooses yes, this function clears the dealer's hand,
+#     resets the dealer value, resets each player's hand total, and
+#     deals new starting cards to each player.
+#
+# Parameters:
+#     finalvalues - dictionary storing each player's current hand total
+#     house_cards - list storing the dealer's cards
+#     house_value - integer storing the dealer's hand value
+#
+# Returns:
+#     play_again - True if the game should continue, False if not
+#     house_value - reset dealer hand value
+# ------------------------------------------------------------
 def play_again(finalvalues,house_cards,house_value):
     play_again = True
     question = input(f"Play again ? Enter yes/no ").lower()
@@ -84,7 +110,21 @@ def play_again(finalvalues,house_cards,house_value):
     return play_again, house_value
         
     
-
+# ------------------------------------------------------------
+# Function: user
+# Purpose:
+#     Deals two random starting cards to a player.
+#     The card values are randomly generated between 2 and 11.
+#     If an Ace is counted as 11 and causes the player to go over 21,
+#     the Ace is changed to 1 to prevent an automatic bust.
+#
+# Parameters:
+#     player_cards - list used to store the player's cards
+#
+# Returns:
+#     total - total value of the player's hand
+#     player_cards - list of cards dealt to the player
+# ------------------------------------------------------------
 def user(player_cards):
     random_card = random.randint(2,11)
     random_card2 = random.randint(2,11)
@@ -106,7 +146,23 @@ def user(player_cards):
     
     return total, player_cards
     
-    
+# ------------------------------------------------------------
+# Function: dict_list
+# Purpose:
+#     Creates the starting player information for the game.
+#     This function asks for each player's name, deals each player
+#     an opening hand, stores their hand total, and gives each player
+#     a starting money amount of $50.
+#
+# Parameters:
+#     dict_totals - dictionary storing each player's hand total
+#     total_players - number of players in the game
+#     player_money - dictionary storing each player's money balance
+#
+# Returns:
+#     dict_totals - updated dictionary of player hand totals
+#     player_money - updated dictionary of player money balances
+# ------------------------------------------------------------
 def dict_list(dict_totals,total_players, player_money):
     for i in range(total_players):
         name = input(f"Enter player {i+1} name: ")
@@ -117,6 +173,22 @@ def dict_list(dict_totals,total_players, player_money):
         player_money[name] = 50 
     return dict_totals, player_money
 
+# ------------------------------------------------------------
+# Function: dealer
+# Purpose:
+#     Controls the dealer's hand for the round.
+#     The dealer starts with two random cards and continues drawing
+#     cards while the hand value is less than 17. If the dealer has
+#     an Ace valued at 11 and the total goes over 21, the Ace is
+#     changed to 1. If the dealer still goes over 21, the dealer busts.
+#
+# Parameters:
+#     houses_cards - list storing the dealer's cards
+#
+# Returns:
+#     houses_cards - list of cards in the dealer's hand
+#     hand_value - final value of the dealer's hand
+# ------------------------------------------------------------
 def dealer(houses_cards):
     random_card = random.randint(2,11)
     random_card2 = random.randint(2,11)
@@ -155,7 +227,22 @@ def dealer(houses_cards):
             break
         
     return houses_cards, hand_value
-    
+
+# ------------------------------------------------------------
+# Function: hit_or_stand
+# Purpose:
+#     Handles each player's turn during the round.
+#     Each active player is asked whether they want to hit or stand.
+#     If the player hits, a new random card is added to their total.
+#     If the player goes over 21, their score is set to 0 because
+#     they busted. If the player stands, their current total is kept.
+#
+# Parameters:
+#     DictTotals - dictionary storing each player's current hand total
+#
+# Returns:
+#     DictTotals - updated dictionary after all players finish turns
+# ------------------------------------------------------------
 def hit_or_stand(DictTotals):
     
     active_players = set(DictTotals.keys()) 
@@ -205,6 +292,20 @@ def hit_or_stand(DictTotals):
                     
     return DictTotals
 
+# ------------------------------------------------------------
+# Function: check_winners
+# Purpose:
+#     Finds the player or players with the highest hand value.
+#     This function separates the players into winners and losers
+#     based on the highest final hand value after all turns are complete.
+#
+# Parameters:
+#     final_values - dictionary storing each player's final hand value
+#
+# Returns:
+#     winners - dictionary of players with the highest hand value
+#     losers - dictionary of players who did not have the highest value
+# ------------------------------------------------------------
 def check_winners(final_values):
     max_value = max(final_values.values())
     winners = {k: v for k, v in final_values.items() if v == max_value}
@@ -212,7 +313,24 @@ def check_winners(final_values):
     
     return winners, losers
     
-
+# ------------------------------------------------------------
+# Function: adjust_money
+# Purpose:
+#     Updates each player's money after the round.
+#     Winners receive double their bet as a payout. Losers lose the
+#     amount they bet. Any player whose money reaches $0 is removed
+#     from the player money dictionary.
+#
+# Parameters:
+#     cash - dictionary storing each player's bet
+#     winners - dictionary of winning players
+#     losers - dictionary of losing players
+#     player_money - dictionary storing each player's current money
+#     dealer_value - dealer's final hand value
+#
+# Returns:
+#     player_money - updated dictionary of player money balances
+# ------------------------------------------------------------
 def adjust_money(cash, winners, losers, player_money, dealer_value):
 
     
