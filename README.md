@@ -22,7 +22,7 @@ build the Blackjack game.
 
 ## Technologies Used
 1. Python programming language
-2. Currently console based, working on possibly implementing Tkinter for GUI
+2. Currently console based, working on implementing GUI
 3. GitHub for project tracking
 
 ---
