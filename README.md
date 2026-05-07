@@ -34,6 +34,7 @@ build the Blackjack game.
 4. Open src folder
 5. Run the program: "blackjack_gui.py"
 6. Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
+7. Optionally: simply run "run_blackjack.bat" this is a more direct way to launch the game
 
 ---
 
