@@ -22,16 +22,18 @@ build the Blackjack game.
 
 ## Technologies Used
 1. Python programming language
-2. Currently console based, working on implementing GUI
+2. customtkinter is an external library that will need to be installed 
 3. GitHub for project tracking
 
 ---
 
 ## How to run the program
 1. Install Python3
-2. Download this repository
-3. Open src folder
-4. Run the program: python "Blackjack Program.py"
+2. Add customtkinter library for GUI
+3. Download this repository
+4. Open src folder
+5. Run the program: "blackjack_gui.py"
+6. Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
 
 ---
 
@@ -45,8 +47,8 @@ Starting money ($50)
 4. Dealer is dealt initial cards
 5. Players place bets
 6. Each player chooses:
-Hit → draw another card
-Stand → keep current total
+Hit to draw another card
+Stand to keep current total
 7. Dealer draws cards until reaching 17 or higher
 8. Winners and losers are determined
 9. Player money is updated based on results
@@ -88,7 +90,8 @@ CIS2790_Project_Blackjack
 - docs
 - project-management
 - src
-  - Blackjack Program.py
+  - blackjack_gui.py
+  - blackjack_logic.py
 - LICENSE
 - README.md
 
