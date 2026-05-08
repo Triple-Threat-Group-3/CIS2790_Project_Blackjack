@@ -41,14 +41,14 @@ build the Blackjack game.
 1. Program starts and displays a welcome message
 2. User enters the number of players
 3. Each player is initialized with:
-  - Name
-  - Starting cards
-  - Starting money ($50)
+   - Name
+   - Starting cards
+   - Starting money ($50)
 4. Dealer is dealt initial cards
 5. Players place bets
 6. Each player chooses:
-Hit to draw another card
-Stand to keep current total
+   - Hit to draw another card
+   - Stand to keep current total
 7. Dealer draws cards until reaching 17 or higher
 8. Winners and losers are determined
 9. Player money is updated based on results
