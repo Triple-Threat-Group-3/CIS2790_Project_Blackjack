@@ -65,7 +65,7 @@ Stand to keep current total
 
 ## Environmental Variables
 - This program does not require any environmental variables.
-- All inputs are handled through user input via the console (GUI in the works).
+- All inputs are handled through user input via customtkinter GUI.
 
 ---
 
