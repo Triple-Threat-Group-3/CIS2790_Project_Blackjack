@@ -93,6 +93,7 @@ CIS2790_Project_Blackjack
 - src
   - blackjack_gui.py
   - blackjack_logic.py
+  - run_blackjack.bat
 - LICENSE
 - README.md
 
