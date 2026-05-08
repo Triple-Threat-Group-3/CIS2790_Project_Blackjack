@@ -30,11 +30,10 @@ build the Blackjack game.
 ## How to run the program
 1. Install Python3
 2. Add customtkinter library for GUI
-3. Download this repository
-4. Open src folder
-5. Run the program: "blackjack_gui.py"
-6. Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
-7. Optionally: simply run "run_blackjack.bat" this is a more direct way to launch the game
+3. Download this repository and open the src folder
+4. Run the program: "blackjack_gui.py"
+5. Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
+6. Optionally: simply run "run_blackjack.bat" this is a more direct way to launch the game
 
 ---
 
@@ -71,8 +70,8 @@ Stand to keep current total
 
 ## Error Handling
 - Input validation is implemented for:
-- Hit/Stand choices (must be "hit" or "stand")
-- Play again prompt (must be "yes" or "no")
+  - Hit/Stand choices (must be "hit" or "stand")
+  - Play again prompt (must be "yes" or "no")
 - Prevents invalid inputs from crashing the program
 
 ---
@@ -99,14 +98,32 @@ CIS2790_Project_Blackjack
 
 ---
 
-## System Architecture
-- main() controls game flow and coordinates all functions
-- dict_list() initializes players and assigns starting values
-- dealer() handles dealer card logic and rules
-- hit_or_stand() processes player decisions
-- check_winners() determines winners and losers
-- adjust_money() updates player balances
-- play_again() resets the game state for the next round
+## Software Architecture
+### Logical Architecture
+The application follows a two-layer architecture which consists of: a presentation layer and a gameplay logic layer.
+The presentation layer is handled by blackjack_gui.py while the logic layer is handled by blackjack_logic.py
+
+- **blackjack_gui.py** manages the following
+  - user interaction
+  - screen rendering
+  - input validation
+  - navigation between screens
+
+- **blackjack_logic.py** manages the following
+  - card generation
+  - dealer logic
+  - score calculations
+  - winner determinations
+  - money adjustments
+
+The seperation of presentation and logic allows the game rules to operate independently of the GUI. It also makes maintenance and editing much easier. It also keeps the code more organized and easy to read/follow.
+
+## Physical Architecture
+The application is a standalone offline desktop program. It requires no network connection, no database, and no server.
+- Requirements
+  - OS: Windows / macOS / Linux
+  - Hardware: Standard laptop/desktop
+  - Network: Not required  
 
 ---
 
@@ -121,7 +138,7 @@ CIS2790_Project_Blackjack
   - Each player will be prompted to enter a bet amount at the start of each round
 - Player Turns
   - Each player will choose:
-    - Hit: recieve another card
+    - Hit: receive another card
     - Stand: keep current total
 - Goal
   - Get as close to 21 as possible without going over
@@ -131,7 +148,7 @@ CIS2790_Project_Blackjack
   - Dealer busts if total exceeds 21
 - Winning and Losing
   - Players with the highest total win (highest total while still under 21)
-  - Winners recieve double their bet
+  - Winners receive double their bet
   - Losers lose their bet amount
   - If tied with the dealer, the result is a wash (no gain or loss)
 - Play Again?
@@ -142,6 +159,6 @@ CIS2790_Project_Blackjack
 
 ## Notes
 - Each player starts with $50
-- Player are removed from the game if their balance reaches $0
+- Players are removed from the game if their balance reaches $0
 - All inputs must be entered exactly as prompted (ex. 'hit', 'stand', 'yes', 'no')
  
