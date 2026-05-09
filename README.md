@@ -71,6 +71,7 @@ build the Blackjack game.
 ## Error Handling
 - Input validation is implemented for:
   - Hit/Stand choices (must be "hit" or "stand")
+     - Keyboard shortcuts for: "H" and "h" = Hit or "S" and "s" = Stand)
   - Play again prompt (must be "yes" or "no")
 - Prevents invalid inputs from crashing the program
 
