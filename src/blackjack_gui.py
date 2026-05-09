@@ -256,6 +256,14 @@ class BlackjackApp(ctk.CTk):
         hit_btn.pack(side="left", padx=12)
         stand_btn.pack(side="left", padx=12)
 
+        # Allow keyboard shortcuts:
+        # H or h = Hit
+        # S or s = Stand
+        self.bind("h", lambda event: do_hit())
+        self.bind("H", lambda event: do_hit())
+        self.bind("s", lambda event: do_stand())
+        self.bind("S", lambda event: do_stand())
+        
         self._swap(f)
 
     # ------------------------------------------------------------
