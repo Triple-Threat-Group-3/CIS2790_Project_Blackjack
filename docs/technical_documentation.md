@@ -300,41 +300,41 @@ The Blackjack Game is a desktop card game application. It is designed to simulat
 This application was developed for the CIS2790 Software Development Capstone course. The goal of this project is to showcase our understanding and apply system analysis and design concepts to create a prototype for a traditional Blackjack game.
 
 - **Blackjack Project Features**
-  1. Classic rules for playing Blackjack
-  2. Allows player interaction through Hit or Stand options
-  3. Dealer follows standard Blackjack rules
-  4. Automatically determines outcomes of games
-  5. Designed to run locally without reliance on networks or internet connections
+  - Classic rules for playing Blackjack
+  - Allows player interaction through Hit or Stand options
+  - Dealer follows standard Blackjack rules
+  - Automatically determines outcomes of games
+  - Designed to run locally without reliance on networks or internet connections
 
 - **Technologies Used**
-  1. Python programming language
-  2. customtkinter is an external library that will need to be installed 
-  3. GitHub for project tracking
+  - Python programming language
+  - customtkinter is an external library that will need to be installed 
+  - GitHub for project tracking
 
 - **How to run the program**
-  1. Install Python3
-  2. Install the customtkinter library for GUI
-  3. Download repository and open src folder
-  4. Run the program: "blackjack_gui.py"
-  5. Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
-  6. Optionally: simply run "run_blackjack.bat" this is a more direct way to launch the game
+  - Install Python3
+  - Install the customtkinter library for GUI
+  - Download repository and open src folder
+  - Run the program: "blackjack_gui.py"
+  - Make sure "blackjack_logic.py" is in the same folder/directory as "blackjack_gui.py"
+  - Optionally: simply run "run_blackjack.bat" this is a more direct way to launch the game
 
 - **Program Logic Flow**
-  1. Program starts and displays a welcome message
-  2. User enters the number of players
-  3. Each player is initialized with:
+  - Program starts and displays a welcome message
+  - User enters the number of players
+  - Each player is initialized with:
       - Name
       - Starting cards
       - Starting money ($50)
-  4. Dealer is dealt initial cards
-  5. Players place bets
-  6. Each player chooses:
+  - Dealer is dealt initial cards
+  - Players place bets
+  - Each player chooses:
       - Hit to draw another card
       - Stand to keep current total
-  7. Dealer draws cards until reaching 17 or higher
-  8. Winners and losers are determined
-  9. Player money is updated based on results
-  10. User chooses to play again or exit
+  - Dealer draws cards until reaching 17 or higher
+  - Winners and losers are determined
+  - Player money is updated based on results
+  - User chooses to play again or exit
 
 - **Entry Point**
   - The main entry point of the program is the main() function.
@@ -359,10 +359,10 @@ This application was developed for the CIS2790 Software Development Capstone cou
   - Global dictionaries are used to track player data
 
 - **User Guide**
-  1. Run the program
-  2. Enter the number of players when prompted
-  3. Enter each player's name
-  4. Let the game begin!
+  - Run the program
+  - Enter the number of players when prompted
+  - Enter each player's name
+  - Let the game begin!
 
 - **Gameplay Instructions**
   - Placing bets
