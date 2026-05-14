@@ -162,4 +162,5 @@ The application is a standalone offline desktop program. It requires no network 
 - Each player starts with $50
 - Players are removed from the game if their balance reaches $0
 - All inputs must be entered exactly as prompted (ex. 'hit', 'stand', 'yes', 'no')
+  - Allowance for the following keyboard shortcuts: 'H' and 'h' for hit actions, 'S' and 's' for stand actions.   
  
