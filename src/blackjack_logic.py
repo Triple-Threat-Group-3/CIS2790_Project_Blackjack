@@ -1,6 +1,12 @@
 # Blackjack Program - Logic
 import random
 
+SUITS = ["clubs", "diamonds", "hearts", "spades"]
+
+def _rand_card():
+    """Return (value, suit) where value is 2-11."""
+    return random.randint(2, 11), random.choice(SUITS)
+
 PlayerList = []
 player_money = {}
 house = []
@@ -21,22 +27,17 @@ cash = {}
 #     player_cards - list of cards dealt to the player
 # ------------------------------------------------------------
 def user(player_cards):
-    random_card = random.randint(2, 11)
-    random_card2 = random.randint(2, 11)
+    # Cards are now (value, suit) tuples
+    c1_val, c1_suit = _rand_card()
+    c2_val, c2_suit = _rand_card()
     
-    player_cards = []
-    player_cards.append(random_card)
-    player_cards.append(random_card2)
-    total = sum(player_cards)
-    if random_card == 11 and total > 21:
-        player_cards.remove(random_card)
-        ace = 1
-        player_cards.append(ace)
+    player_cards = [(c1_val, c1_suit), (c2_val, c2_suit)]
+    total = c1_val + c2_val
+    if c1_val == 11 and total > 21:
+        player_cards[0] = (1, c1_suit)
         total -= 10
-    elif random_card2 == 11 and total > 21:
-        player_cards.remove(random_card2)
-        ace = 1
-        player_cards.append(ace)
+    elif c2_val == 11 and total > 21:
+        player_cards[1] = (1, c2_suit)
         total -= 10
         
     return total, player_cards
@@ -82,30 +83,30 @@ def dict_list(dict_totals, names, p_money):
 #     hand_value   - final value of the dealer's hand
 # ------------------------------------------------------------
 def dealer(houses_cards):
-    random_card = random.randint(2, 11)
-    random_card2 = random.randint(2, 11)
-    houses_cards.append(random_card)
-    houses_cards.append(random_card2)
-    hand_value = sum(houses_cards)
+    c1_val, c1_suit = _rand_card()
+    c2_val, c2_suit = _rand_card()
+    houses_cards.append((c1_val, c1_suit))
+    houses_cards.append((c2_val, c2_suit))
+    hand_value = c1_val + c2_val
 
-    if hand_value > 21 and (random_card == 11 or random_card2 == 11):
+    if hand_value > 21 and (c1_val == 11 or c2_val == 11):
         hand_value -= 10
-        if random_card == 11:
-            houses_cards.pop(0)
-            random_card -= 10
-            houses_cards.append(random_card)
-        elif random_card2 == 11:
-            houses_cards.pop(1)
-            random_card2 -= 10
-            houses_cards.append(random_card2)
+        if c1_val == 11:
+            houses_cards[0] = (1, c1_suit)
+        elif c2_val == 11:
+            houses_cards[1] = (1, c2_suit)
 
     while hand_value < 17:
-        random_card = random.randint(2, 11)
-        houses_cards.append(random_card)
-        hand_value += random_card
-        while hand_value > 21 and 11 in houses_cards:
-            houses_cards[houses_cards.index(11)] = 1
-            hand_value -= 10
+        val, suit = _rand_card()
+        houses_cards.append((val, suit))
+        hand_value += val
+        # Convert aces (11) to 1 if over 21
+        while hand_value > 21 and any(v == 11 for v, _ in houses_cards):
+            for i, (v, s) in enumerate(houses_cards):
+                if v == 11:
+                    houses_cards[i] = (1, s)
+                    hand_value -= 10
+                    break
         if hand_value > 21:
             hand_value = 0
             break
@@ -126,14 +127,14 @@ def dealer(houses_cards):
 #     blackjack   - True if player hit exactly 21
 # ------------------------------------------------------------
 def hit(current_value):
-    card = random.randint(2, 11)
-    new_value = current_value + card
+    val, suit = _rand_card()
+    new_value = current_value + val
     busted = False
     blackjack = False
 
-    if new_value > 21 and card == 11:
+    if new_value > 21 and val == 11:
         new_value -= 10
-        card = 1   # treat ace as 1 for display
+        val = 1   # treat ace as 1 for display
 
     if new_value > 21:
         busted = True
@@ -141,7 +142,7 @@ def hit(current_value):
     elif new_value == 21:
         blackjack = True
 
-    return new_value, card, busted, blackjack
+    return new_value, (val, suit), busted, blackjack
 
 # ------------------------------------------------------------
 # Function: check_winners

@@ -1,5 +1,7 @@
 # Blackjack GUI - customtkinter frontend
 # Imports all game logic from blackjack_logic.py; this file only handles the UI.
+import os
+import tkinter as tk
 import customtkinter as ctk
 from blackjack_logic import (
     dict_list, dealer, hit, check_winners, adjust_money,
@@ -10,20 +12,55 @@ from blackjack_logic import (
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
-# Aces (1 and 11) display as "A"; all other card values display as their number
-FACE = {1: "A", 11: "A"}
+# Directory where PNG card files live (cards_png/ folder next to this script)
+_CARDS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cards_png")
 
-def card_str(val):
-    # Returns the display string for a card value
-    return FACE.get(val, str(val))
+# Cache PhotoImages so we don't reload the same file repeatedly
+_card_image_cache: dict = {}
 
-def hand_text(cards, hide_first=False):
-    # Builds a string like  [A]  [7]  [3]  from a list of card values.
-    # If hide_first is True, the first card shows as [?] (dealer's hidden card).
-    parts = []
-    for i, c in enumerate(cards):
-        parts.append("[?]" if hide_first and i == 0 else f"[{card_str(c)}]")
-    return "  ".join(parts)
+# Card value → PNG filename prefix
+_VALUE_NAME = {
+    1: "ace", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6",
+    7: "7", 8: "8", 9: "9", 10: "10", 11: "ace",
+}
+
+def _card_photoimage(value: int, suit: str) -> tk.PhotoImage:
+    key = (value, suit)
+    if key not in _card_image_cache:
+        name = _VALUE_NAME.get(value, str(value))
+        path = os.path.join(_CARDS_DIR, f"{name}_of_{suit}.png")
+        _card_image_cache[key] = tk.PhotoImage(file=path)
+    return _card_image_cache[key]
+
+# ------------------------------------------------------------
+# _card_back_photoimage
+# Purpose:
+#     Load flipped.png from the cards directory as the card back.
+# ------------------------------------------------------------
+def _card_back_photoimage() -> tk.PhotoImage:
+    key = "__back__"
+    if key not in _card_image_cache:
+        path = os.path.join(_CARDS_DIR, "flipped.png")
+        _card_image_cache[key] = tk.PhotoImage(file=path)
+    return _card_image_cache[key]
+
+# ------------------------------------------------------------
+# hand_widget
+# Purpose:
+#     Build a horizontal row of card images inside `parent`.
+#     cards is list of (value, suit) tuples.
+#     hide_first: if True, first card shows the card back.
+#     Returns the frame so callers can pack it.
+# ------------------------------------------------------------
+def hand_widget(parent, cards, hide_first=False):
+    row = ctk.CTkFrame(parent, fg_color="transparent")
+    row._img_refs = []   # prevent GC from collecting PhotoImages
+    for i, (val, suit) in enumerate(cards):
+        photo = _card_back_photoimage() if (hide_first and i == 0) else _card_photoimage(val, suit)
+        lbl = ctk.CTkLabel(row, image=photo, text="")
+        lbl.pack(side="left", padx=3)
+        row._img_refs.append(photo)
+    return row
 
 
 class BlackjackApp(ctk.CTk):
@@ -36,7 +73,7 @@ class BlackjackApp(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Blackjack")
-        self.geometry("800x600")
+        self.geometry("900x680")
         self.resizable(False, False)
 
         # --- Game state ---
@@ -208,13 +245,12 @@ class BlackjackApp(ctk.CTk):
         # Show current player's hand
         ctk.CTkLabel(f, text=f"{name}  —  {val} total",
                      font=("", 18, "bold")).pack(pady=(20, 4))
-        ctk.CTkLabel(f, text=hand_text(p_cards), font=("", 20)).pack()
+        hand_widget(f, p_cards).pack()
 
         # Show dealer's hand with the first card hidden
         ctk.CTkLabel(f, text="Dealer", font=("", 14)).pack(pady=(20, 4))
         dealer_shown = self.house_cards[:2] if len(self.house_cards) >= 2 else self.house_cards
-        ctk.CTkLabel(f, text=hand_text(dealer_shown, hide_first=True),
-                     font=("", 20)).pack()
+        hand_widget(f, dealer_shown, hide_first=True).pack()
 
         # Status label — updated when the player busts, gets blackjack, or stands
         status = ctk.CTkLabel(f, text="", text_color="gray")
@@ -225,9 +261,9 @@ class BlackjackApp(ctk.CTk):
 
         def do_hit():
             # Deal one card via the logic module and update state
-            new_val, card, busted, blackjack = hit(val)
+            new_val, card_tuple, busted, blackjack = hit(val)
             self.player_totals[name] = new_val
-            self.player_cards_map[name].append(card)
+            self.player_cards_map[name].append(card_tuple)
             if busted:
                 # Player exceeded 21 — score set to 0 in logic, move on after delay
                 status.configure(text=f"Bust!", text_color="red")
@@ -315,7 +351,7 @@ class BlackjackApp(ctk.CTk):
         # Reveal dealer's full hand
         ctk.CTkLabel(f, text=f"Dealer  —  {house_val} total",
                      font=("", 16, "bold")).pack(pady=(20, 4))
-        ctk.CTkLabel(f, text=hand_text(self.house_cards), font=("", 18)).pack()
+        hand_widget(f, self.house_cards).pack()
 
         ctk.CTkLabel(f, text="─" * 36, text_color="gray").pack(pady=8)
 
